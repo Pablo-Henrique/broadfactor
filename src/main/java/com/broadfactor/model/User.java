@@ -11,7 +11,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @RequiredArgsConstructor
-@Entity
+@Entity(name = "TB_USER")
 public class User implements Serializable {
 
     @Serial
