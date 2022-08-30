@@ -1,12 +1,12 @@
 package com.broadfactor.response;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.validation.BindingResult;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,11 +14,11 @@ import java.util.Map;
 public final class Response<Type> {
 
     private Type data;
-    private Map<String, Object> errors;
+    private List<String> errors;
 
-    public Map<String, Object> getErrors() {
+    public List<String> getErrors() {
         if (errors == null) {
-            this.errors = new HashMap<>();
+            this.errors = new ArrayList<>();
         }
         return errors;
     }
