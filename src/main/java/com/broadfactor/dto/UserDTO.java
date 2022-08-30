@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -25,13 +26,13 @@ public final class UserDTO implements Serializable {
     @NotNull
     private String username;
 
-    @NotNull
-    @Email(message = "Insira um email valido!")
+    @NotBlank(message = "{email.not-blank}")
+    @Email(message = "{email.not-valid}")
     private String email;
 
-    @NotNull
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Length(min = 6, message = "Insira o minimo de 6 caracteres para senha")
+    @NotBlank(message = "{password.not-blank}")
+    @Length(min = 6, message = "{password.min-caracter-6}")
     private String password;
 
 }
