@@ -1,10 +1,13 @@
 package com.broadfactor.controller;
 
 import com.broadfactor.dto.UserDTO;
+import com.broadfactor.model.Cnpj;
 import com.broadfactor.model.User;
 import com.broadfactor.response.Response;
+import com.broadfactor.service.CnpjService;
 import com.broadfactor.service.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,18 +27,25 @@ public class UserController {
     private ModelMapper mapper;
 
     @Autowired
-    private UserService service;
+    private CnpjService cnpjService;
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping(path = "/insert")
     public ResponseEntity<Response<UserDTO>> insert(@RequestBody @Valid UserDTO dto, BindingResult result) {
         Response<UserDTO> response = new Response<>();
+        User user = new User();
+
         if (result.hasErrors()) {
-            response.setErrors(result.getModel());
+            result.getAllErrors().forEach(e -> response.getErrors().add(e.getDefaultMessage()));
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
-        User user = service.insert(mapper.map(dto, User.class));
-        response.setData(mapper.map(user, UserDTO.class));
+        user.setCnpj(cnpjService.insert(cnpjService.findCnpj(dto.getCnpj())));
+        BeanUtils.copyProperties(dto, user, "cnpj");
+        response.setData(mapper.map(userService.insert(user), UserDTO.class));
+
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
