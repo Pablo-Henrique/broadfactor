@@ -30,6 +30,10 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String password;
 
+    @OneToOne
+    @JoinColumn(name = "cnpj_id")
+    private Cnpj cnpj;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

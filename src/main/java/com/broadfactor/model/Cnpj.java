@@ -19,26 +19,30 @@ public class Cnpj implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false, length = 14)
+    @Column(unique = true)
     private String cnpj;
 
-    @Column(nullable = false)
+    @Column
     private String tipo;
 
-    @Column(nullable = false)
+    @Column
     private String porte;
 
-    @Column(nullable = false)
+    @Column
     private String nome;
 
-    @Column(nullable = false)
+    @Column
     private String fantasia;
 
-    @Column(nullable = false)
+    @Column
     private String abertura;
 
-    @Column(nullable = false)
+    @Column
     private String natureza_juridica;
+
+    @OneToOne
+    @JoinColumn(name = "person_id")
+    private User pyshicalPerson;
 
     @Override
     public boolean equals(Object o) {
