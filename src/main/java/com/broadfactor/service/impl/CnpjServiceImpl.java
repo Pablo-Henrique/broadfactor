@@ -5,6 +5,7 @@ import com.broadfactor.repository.CnpjRepository;
 import com.broadfactor.service.CnpjService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -20,7 +21,13 @@ public class CnpjServiceImpl implements CnpjService {
     }
 
     @Override
-    public Cnpj insert(Cnpj cnpj) {
-        return repository.save(cnpj);
+    public Cnpj findCnpj(String cnpj) {
+        RestTemplate template = new RestTemplate();
+        return template.getForObject("https://receitaws.com.br/v1/cnpj/"+ cnpj, Cnpj.class);
+    }
+
+    @Override
+    public Cnpj insert(Cnpj entity) {
+        return repository.save(entity);
     }
 }
