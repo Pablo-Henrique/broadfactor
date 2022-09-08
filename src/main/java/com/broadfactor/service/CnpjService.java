@@ -8,5 +8,8 @@ public interface CnpjService {
 
     List<Cnpj> findAll();
 
-    Cnpj insert(Cnpj cnpj);
+    Cnpj insert(Cnpj entity);
+
+    Cnpj findCnpj(String cnpj);
+
 }
