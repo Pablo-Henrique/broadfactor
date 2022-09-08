@@ -31,7 +31,7 @@ public class UserControllerTest {
 
     private final static Long ID = 1L;
     private final static String USERNAME = "Test User";
-    private final static String EMAIL = "user@test.COM";
+    private final static String EMAIL = "user@test.com";
     private final static String PASSWORD = "123456";
     private final static String URL = "/user";
 
@@ -49,7 +49,7 @@ public class UserControllerTest {
         mock.perform(MockMvcRequestBuilders.post(URL + "/insert")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(jsonPayload()))
+                .content(jsonPayload(ID, USERNAME, EMAIL, PASSWORD)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.data.id").exists())
                 .andExpect(jsonPath("$.data.username").value(USERNAME))
@@ -57,15 +57,31 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.data.password").doesNotExist());
     }
 
+    @Test
+    public void testInvalidInsertUser() throws Exception {
 
-    private String jsonPayload() throws JsonProcessingException {
+        BDDMockito.given(service.insert(Mockito.any(User.class))).willReturn(getMockUser());
+
+        mock.perform(MockMvcRequestBuilders.post(URL + "/insert")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(jsonPayload(ID, USERNAME, EMAIL, "1234")))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors[0]").value("Senha deve ter mais de que 6 caracteres."))
+                .andReturn();
+
+    }
+
+
+    private String jsonPayload(Long id, String username, String email, String password) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         UserDTO userDTO = new UserDTO();
-        userDTO.setId(ID);
-        userDTO.setUsername(USERNAME);
-        userDTO.setEmail(EMAIL);
-        userDTO.setPassword(PASSWORD);
+        userDTO.setId(id);
+        userDTO.setUsername(username);
+        userDTO.setEmail(email);
+        userDTO.setPassword(password);
 
+        mapper.disable(MapperFeature.USE_ANNOTATIONS);
         return mapper.writeValueAsString(userDTO);
     }
 
