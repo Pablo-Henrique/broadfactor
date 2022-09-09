@@ -33,15 +33,10 @@ public class UserController {
     private UserService userService;
 
     @PostMapping(path = "/insert")
-    public ResponseEntity<Response<UserDTO>> insert(@RequestBody @Valid UserDTO dto, BindingResult result) {
+    public ResponseEntity<Response<UserDTO>> insert(@RequestBody @Valid UserDTO dto) {
         Response<UserDTO> response = new Response<>();
         User user = new User();
         Cnpj cnpj = cnpjService.findCnpj(dto.getCnpj());
-
-        if (result.hasErrors()) {
-            result.getAllErrors().forEach(e -> response.getErrors().add(e.getDefaultMessage()));
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-        }
 
         BeanUtils.copyProperties(dto, user);
         user.setCnpj(cnpjService.insert(cnpj));
