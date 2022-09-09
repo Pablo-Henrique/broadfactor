@@ -30,7 +30,7 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String password;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "cnpj_id")
     private Cnpj cnpj;
 

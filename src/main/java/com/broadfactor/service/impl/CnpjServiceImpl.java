@@ -23,11 +23,24 @@ public class CnpjServiceImpl implements CnpjService {
     @Override
     public Cnpj findCnpj(String cnpj) {
         RestTemplate template = new RestTemplate();
-        return template.getForObject("https://receitaws.com.br/v1/cnpj/"+ cnpj, Cnpj.class);
+        if (validatorCnpj(cnpj)) {
+            return template.getForObject("https://receitaws.com.br/v1/cnpj/" + cnpj, Cnpj.class);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean validatorCnpj(String cnpj) {
+        if (cnpj == null || cnpj.isEmpty()) {
+            return false;
+        }
+        return cnpj.length() == 14;
     }
 
     @Override
     public Cnpj insert(Cnpj entity) {
-        return repository.save(entity);
+        return (entity == null) ? null : repository.save(entity);
     }
+
+
 }

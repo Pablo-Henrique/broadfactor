@@ -36,17 +36,17 @@ public class UserController {
     public ResponseEntity<Response<UserDTO>> insert(@RequestBody @Valid UserDTO dto, BindingResult result) {
         Response<UserDTO> response = new Response<>();
         User user = new User();
+        Cnpj cnpj = cnpjService.findCnpj(dto.getCnpj());
 
         if (result.hasErrors()) {
             result.getAllErrors().forEach(e -> response.getErrors().add(e.getDefaultMessage()));
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
-        user.setCnpj(cnpjService.insert(cnpjService.findCnpj(dto.getCnpj())));
-        BeanUtils.copyProperties(dto, user, "cnpj");
+        BeanUtils.copyProperties(dto, user);
+        user.setCnpj(cnpjService.insert(cnpj));
+
         response.setData(mapper.map(userService.insert(user), UserDTO.class));
-
-
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }
