@@ -6,8 +6,8 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -18,12 +18,9 @@ public final class Response<Type> implements Serializable {
     private static final long serialVersionUID = -8374112162112593810L;
 
     private Type data;
-    private List<String> errors;
+    private Map<String, String> errors = new HashMap<>();
 
-    public List<String> getErrors() {
-        if (errors == null) {
-            errors = new ArrayList<>();
-        }
-        return errors;
+    public void setErrors(String field, String defaultMessage) {
+        errors.put(field, defaultMessage);
     }
 }
