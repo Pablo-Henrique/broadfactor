@@ -67,7 +67,7 @@ public class UserControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .content(jsonPayload(ID, USERNAME, EMAIL, "1234")))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.errors[0]").value("Senha deve ter mais de que 6 caracteres."))
+                .andExpect(jsonPath("$.errors.password").value("Senha deve ter mais de que 6 caracteres."))
                 .andReturn();
 
     }
