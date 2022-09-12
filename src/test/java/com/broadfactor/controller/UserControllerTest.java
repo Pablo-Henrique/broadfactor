@@ -65,8 +65,10 @@ public class UserControllerTest {
         mock.perform(MockMvcRequestBuilders.post(URL + "/insert")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(jsonPayload(ID, USERNAME, EMAIL, "1234")))
+                .content(jsonPayload(ID, "", "EMAIL", "1234")))
                 .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors.username").value("Nome não deve estar em branco."))
+                .andExpect(jsonPath("$.errors.email").value("Endereço de e-mail informado possui um formato inválido."))
                 .andExpect(jsonPath("$.errors.password").value("Senha deve ter mais de que 6 caracteres."))
                 .andReturn();
 
