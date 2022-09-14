@@ -6,12 +6,11 @@ import com.broadfactor.model.User;
 import com.broadfactor.response.Response;
 import com.broadfactor.service.CnpjService;
 import com.broadfactor.service.UserService;
+import com.broadfactor.util.BCrypt;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,13 +34,15 @@ public class UserController {
     @PostMapping(path = "/insert")
     public ResponseEntity<Response<UserDTO>> insert(@RequestBody @Valid UserDTO dto) {
         Response<UserDTO> response = new Response<>();
-        User user = new User();
-        Cnpj cnpj = cnpjService.findCnpj(dto.getCnpj());
 
-        BeanUtils.copyProperties(dto, user);
+        User user = mapper.map(dto, User.class);
+        user.setPassword(BCrypt.passwordEncoder(user.getPassword()));
+        Cnpj cnpj = cnpjService.consumerCnpj(dto.getCnpj());
+
         user.setCnpj(cnpjService.insert(cnpj));
 
         response.setData(mapper.map(userService.insert(user), UserDTO.class));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
 }
