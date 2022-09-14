@@ -1,6 +1,7 @@
 package com.broadfactor.handler;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serial;
@@ -8,6 +9,7 @@ import java.io.Serializable;
 
 @AllArgsConstructor
 @Data
+@Builder
 public class ErrorResponse implements Serializable {
 
     @Serial
