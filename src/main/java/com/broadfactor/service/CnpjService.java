@@ -10,7 +10,9 @@ public interface CnpjService {
 
     Cnpj insert(Cnpj entity);
 
-    Cnpj findCnpj(String cnpj);
+    Cnpj findByCnpj(String cnpj);
+
+    Cnpj consumerCnpj(String cnpj);
 
     boolean validatorCnpj(String cnpj);
 
