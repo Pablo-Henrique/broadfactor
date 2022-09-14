@@ -28,7 +28,7 @@ public final class UserDTO implements Serializable {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
-    @NotNull
+    @NotBlank(message = "{name.not-blank}")
     private String username;
 
     @NotBlank(message = "{email.not-blank}")
