@@ -2,21 +2,18 @@ package com.broadfactor.util;
 
 import org.junit.Assert;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Classe Utils para Mapeamento de entidades e Dtos
+ */
 public class ObjectMapperUtils {
 
     private static final ModelMapper modelMapper;
 
-    /**
-     * Model mapper property setting are specified in the following block.
-     * Default property matching strategy is set to Strict see {@link MatchingStrategies}
-     * Custom mappings are added using {@link ModelMapper#addMappings(PropertyMap)}
-     */
     static {
         modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setAmbiguityIgnored(true);

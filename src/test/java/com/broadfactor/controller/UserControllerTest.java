@@ -74,7 +74,6 @@ public class UserControllerTest {
 
     }
 
-
     private String jsonPayload(Long id, String username, String email, String password) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         UserDTO userDTO = new UserDTO();

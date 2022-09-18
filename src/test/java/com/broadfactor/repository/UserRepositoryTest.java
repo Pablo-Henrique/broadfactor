@@ -9,6 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
@@ -28,6 +30,12 @@ public class UserRepositoryTest {
 
         User response = repository.save(user);
         assertNotNull(response);
+    }
+
+    @Test
+    public void testFindAll() {
+        List<User> users = repository.findAll();
+        assertNotNull(users);
     }
 
 }

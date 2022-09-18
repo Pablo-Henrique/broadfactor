@@ -6,9 +6,8 @@ import com.broadfactor.model.User;
 import com.broadfactor.response.Response;
 import com.broadfactor.service.CnpjService;
 import com.broadfactor.service.UserService;
-import com.broadfactor.util.BCrypt;
+import com.broadfactor.util.PasswordCryptUtils;
 import com.broadfactor.util.ObjectMapperUtils;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +31,7 @@ public class UserController {
         Response<UserDTO> response = new Response<>();
 
         User user = ObjectMapperUtils.map(dto, User.class);
-        user.setPassword(BCrypt.passwordEncoder(user.getPassword()));
+        user.setPassword(PasswordCryptUtils.passwordEncoder(user.getPassword()));
         Cnpj cnpj = cnpjService.consumerCnpj(dto.getCnpj());
         user.setCnpj(cnpjService.insert(cnpj));
 

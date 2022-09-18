@@ -4,6 +4,7 @@ import com.broadfactor.model.Cnpj;
 import com.broadfactor.repository.CnpjRepository;
 import com.broadfactor.service.CnpjService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -47,7 +48,11 @@ public class CnpjServiceImpl implements CnpjService {
     @Override
     @Transactional
     public Cnpj insert(Cnpj entity) {
-        return entity == null ? null : repository.save(entity);
+        try {
+            return entity == null ? null : repository.save(entity);
+        } catch (DataIntegrityViolationException ex) {
+            throw new DataIntegrityViolationException("Dado já cadastrado");
+        }
     }
 
 
