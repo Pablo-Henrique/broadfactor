@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -14,6 +15,9 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Entity(name = "TB_CNPJ")
 public class Cnpj implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -6659413057919393371L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
