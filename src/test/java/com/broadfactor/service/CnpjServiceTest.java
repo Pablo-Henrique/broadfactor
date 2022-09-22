@@ -1,6 +1,7 @@
 package com.broadfactor.service;
 
 import com.broadfactor.model.Cnpj;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class CnpjServiceTest {
     }
 
     @Test
-    public void testFindCnpj() {
+    public void testConsumerCnpj() {
         ResponseEntity<Cnpj> response = TEMPLATE.getForEntity(URL + CNPJ, Cnpj.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertInstanceOf(Cnpj.class, response.getBody());

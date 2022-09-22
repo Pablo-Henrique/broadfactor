@@ -28,7 +28,6 @@ public class CnpjServiceImpl implements CnpjService {
     }
 
     @Override
-    @Transactional
     public Cnpj consumerCnpj(String cnpj) {
         RestTemplate template = new RestTemplate();
         if (validatorCnpj(cnpj)) {

@@ -18,7 +18,7 @@ public class PasswordCryptUtils {
     }
 
     /**
-     * riptografia para senha
+     * Criptografia para senha
      *
      * @param password Senha para ser encryptada.
      * @return Senha cryptografada

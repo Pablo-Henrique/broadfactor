@@ -25,7 +25,7 @@ public class CnpjController {
     @PostMapping(path = "/insert")
     public ResponseEntity<Response<CnpjDTO>> insert(@RequestBody @Valid CnpjDTO cnpjDTO) {
         Response<CnpjDTO> response = new Response<>();
-        Cnpj cnpj = ObjectMapperUtils.map(cnpjDTO, Cnpj.class);
+        Cnpj cnpj = service.insert(ObjectMapperUtils.map(cnpjDTO, Cnpj.class));
         response.setData(ObjectMapperUtils.map(cnpj, CnpjDTO.class));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
