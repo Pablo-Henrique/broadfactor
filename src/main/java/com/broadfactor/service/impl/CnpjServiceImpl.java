@@ -1,5 +1,6 @@
 package com.broadfactor.service.impl;
 
+import com.broadfactor.handler.exceptions.EntityNotFoundException;
 import com.broadfactor.model.Cnpj;
 import com.broadfactor.repository.CnpjRepository;
 import com.broadfactor.service.CnpjService;
@@ -24,7 +25,10 @@ public class CnpjServiceImpl implements CnpjService {
 
     @Override
     public Cnpj findByCnpj(String cnpj) {
-        return repository.findByCnpj(cnpj);
+        if (validatorCnpj(cnpj)){
+            return null;
+        }
+        return repository.findByCnpj(cnpj).orElseThrow(() -> new EntityNotFoundException("Cnpj não encontrado!"));
     }
 
     @Override
