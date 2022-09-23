@@ -26,7 +26,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping(path = "/insert")
+    @PostMapping(path = "/register")
     public ResponseEntity<Response<UserDTO>> insert(@RequestBody @Valid UserDTO dto) {
         Response<UserDTO> response = new Response<>();
 
