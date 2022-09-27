@@ -27,18 +27,6 @@ public class CnpjServiceTest {
     private CnpjService service;
 
     @Test
-    public void testValidatorCnpj() {
-        assertTrue(service.validatorCnpj(CNPJ));
-    }
-
-    @Test
-    public void testInvalidCnpj() {
-        assertFalse(service.validatorCnpj(""));
-        assertFalse(service.validatorCnpj(null));
-        assertFalse(service.validatorCnpj("12345"));
-    }
-
-    @Test
     public void testConsumerCnpj() {
         ResponseEntity<Cnpj> response = TEMPLATE.getForEntity(URL + CNPJ, Cnpj.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
