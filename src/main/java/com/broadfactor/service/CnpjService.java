@@ -13,7 +13,4 @@ public interface CnpjService {
     Cnpj findByCnpj(String cnpj);
 
     Cnpj consumerCnpj(String cnpj);
-
-    boolean validatorCnpj(String cnpj);
-
 }
