@@ -1,6 +1,7 @@
 package com.broadfactor.handler;
 
 import com.broadfactor.handler.exceptions.EntityNotFoundException;
+import com.broadfactor.handler.exceptions.ParseFormatterErrorException;
 import com.broadfactor.response.Response;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -34,35 +35,48 @@ public class ExceptionHandlerAdvice {
 
     @ExceptionHandler(value = DataIntegrityViolationException.class)
     public ResponseEntity<Response<ErrorResponse>> dataIntegrityViolationException(DataIntegrityViolationException ex, HttpServletRequest request) {
-        Response<ErrorResponse> response = new Response<>();
 
-        ErrorResponse error = ErrorResponse
-                .builder()
-                .status(HttpStatus.BAD_REQUEST.value())
-                .path(request.getRequestURI())
-                .message("Dados já cadastrado em nossa base de dados!")
-                .detail("Verifique os campos e tente novamente!")
-                .build();
+        int status = HttpStatus.NOT_FOUND.value();
+        String path = request.getRequestURI();
+        String message = "Dados já cadastrado em nossa base de dados!";
+        String detail = "Verifique os campos e tente novamente!";
 
-        response.setData(error);
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(getError(status, path, message, detail));
     }
 
     @ExceptionHandler(value = EntityNotFoundException.class)
     public ResponseEntity<Response<ErrorResponse>> entityNotFoundException(EntityNotFoundException ex, HttpServletRequest request) {
-        Response<ErrorResponse> response = new Response<>();
 
-        ErrorResponse error = ErrorResponse
+        int status = HttpStatus.NOT_FOUND.value();
+        String path = request.getRequestURI();
+        String message = ex.getMessage();
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(getError(status, path, message, null));
+    }
+
+    @ExceptionHandler(value = ParseFormatterErrorException.class)
+    public ResponseEntity<ErrorResponse> parseFormatterErrorException(ParseFormatterErrorException ex, HttpServletRequest request) {
+        ErrorResponse errorResponse = ErrorResponse
                 .builder()
-                .status(HttpStatus.NOT_FOUND.value())
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .path(request.getRequestURI())
                 .message(ex.getMessage())
-                .detail(null)
+                .detail("verifique o cnpj informado!")
                 .build();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+    }
 
+
+    private Response<ErrorResponse> getError(int code, String path, String message, String detail) {
+        Response<ErrorResponse> response = new Response<>();
+        ErrorResponse error = ErrorResponse
+                .builder()
+                .status(code)
+                .path(path)
+                .message(message)
+                .detail(detail)
+                .build();
         response.setData(error);
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        return response;
     }
 }
