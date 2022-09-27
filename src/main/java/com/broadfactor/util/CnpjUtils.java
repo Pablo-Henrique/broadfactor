@@ -1,5 +1,7 @@
 package com.broadfactor.util;
 
+import com.broadfactor.handler.exceptions.ParseFormatterErrorException;
+
 import javax.swing.text.MaskFormatter;
 import java.text.ParseException;
 
@@ -12,15 +14,14 @@ public class CnpjUtils {
         return cnpj.length() == 14;
     }
 
-    public static String formatCnpj(String cnpj) throws ParseException {
+    public static String formatCnpj(String cnpj) {
         try{
             MaskFormatter mask = new MaskFormatter("##.###.###/####-##");
             mask.setValueContainsLiteralCharacters(false);
             System.out.println(mask.valueToString(cnpj));
             return mask.valueToString(cnpj);
         }catch (ParseException ex) {
-            throw new ParseException("Não foi possivel conveter para formato CNPJ", 500);
+            throw new ParseFormatterErrorException("Problema em formatar os valores para mascara de cnpj");
         }
     }
-
 }
