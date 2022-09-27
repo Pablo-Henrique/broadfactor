@@ -1,5 +1,6 @@
 package com.broadfactor.handler;
 
+import com.broadfactor.handler.exceptions.EntityNotFoundException;
 import com.broadfactor.response.Response;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -46,5 +47,22 @@ public class ExceptionHandlerAdvice {
         response.setData(error);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(value = EntityNotFoundException.class)
+    public ResponseEntity<Response<ErrorResponse>> entityNotFoundException(EntityNotFoundException ex, HttpServletRequest request) {
+        Response<ErrorResponse> response = new Response<>();
+
+        ErrorResponse error = ErrorResponse
+                .builder()
+                .status(HttpStatus.NOT_FOUND.value())
+                .path(request.getRequestURI())
+                .message(ex.getMessage())
+                .detail(null)
+                .build();
+
+        response.setData(error);
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 }
