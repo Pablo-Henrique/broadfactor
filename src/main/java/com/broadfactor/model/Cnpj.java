@@ -44,7 +44,7 @@ public class Cnpj implements Serializable {
     @Column
     private String natureza_juridica;
 
-    @OneToOne
+    @OneToOne(mappedBy = "cnpj")
     @JoinColumn(name = "person_id")
     private User pyshicalPerson;
 

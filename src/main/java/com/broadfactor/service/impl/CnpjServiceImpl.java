@@ -36,7 +36,7 @@ public class CnpjServiceImpl implements CnpjService {
 
     @Override
     public Cnpj findByCnpj(String cnpj) {
-        return repository.findByCnpj(CnpjUtils.formatCnpj(cnpj)).orElseThrow(() -> new EntityNotFoundException("Cnpj não encontrado!"));
+        return repository.findByCnpj(CnpjUtils.maskFormatterToCnpj(cnpj)).orElseThrow(() -> new EntityNotFoundException("Cnpj não encontrado!"));
     }
 
     @Override

@@ -14,14 +14,20 @@ public class CnpjUtils {
         return cnpj.length() == 14;
     }
 
-    public static String formatCnpj(String cnpj) {
+    /**
+     * Formta o cnpj informado do padrao 63680865000166 para 63.680.865/0001-66
+     *
+     * @param cnpj a ser formatado.
+     * @return cnpj formatado
+     */
+    public static String maskFormatterToCnpj(String cnpj) {
         try{
             MaskFormatter mask = new MaskFormatter("##.###.###/####-##");
             mask.setValueContainsLiteralCharacters(false);
             System.out.println(mask.valueToString(cnpj));
             return mask.valueToString(cnpj);
         }catch (ParseException ex) {
-            throw new ParseFormatterErrorException("Problema em formatar os valores para mascara de cnpj");
+            throw new ParseFormatterErrorException("Não foi possivel realizar essa operação!");
         }
     }
 }
