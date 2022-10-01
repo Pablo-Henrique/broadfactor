@@ -4,6 +4,7 @@ import com.broadfactor.model.User;
 import com.broadfactor.repository.UserRepository;
 import com.broadfactor.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User insert(User user) {
+        if (repository.findByUsername(user.getUsername()).isPresent()) {
+            throw new DataIntegrityViolationException("Usuário ou email já cadastrado!");
+        }
         return repository.save(user);
     }
 

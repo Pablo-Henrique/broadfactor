@@ -22,11 +22,10 @@ public class CnpjServiceImpl implements CnpjService {
     @Override
     @Transactional
     public Cnpj insert(Cnpj entity) {
-        try {
-            return entity == null ? null : repository.save(entity);
-        } catch (DataIntegrityViolationException ex) {
-            throw new DataIntegrityViolationException("Dado já cadastrado");
+        if (entity != null && repository.findByCnpj(entity.getCnpj()).isPresent()) {
+            throw new DataIntegrityViolationException("CNPJ já cadastrado!");
         }
+        return entity == null ? null : repository.save(entity);
     }
 
     @Override
