@@ -6,8 +6,11 @@ import com.broadfactor.model.User;
 import com.broadfactor.response.Response;
 import com.broadfactor.service.CnpjService;
 import com.broadfactor.service.UserService;
-import com.broadfactor.util.PasswordCryptUtils;
 import com.broadfactor.util.ObjectMapperUtils;
+import com.broadfactor.util.PasswordCryptUtils;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@Getter
+@Setter
 @RestController
 @RequestMapping(path = "/user")
 public class UserController {
@@ -32,6 +37,7 @@ public class UserController {
 
         User user = ObjectMapperUtils.map(dto, User.class);
         user.setPassword(PasswordCryptUtils.passwordEncoder(user.getPassword()));
+
         Cnpj cnpj = cnpjService.consumerCnpj(dto.getCnpj());
         user.setCnpj(cnpjService.insert(cnpj));
 

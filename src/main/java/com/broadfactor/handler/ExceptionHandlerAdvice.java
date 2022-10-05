@@ -34,12 +34,12 @@ public class ExceptionHandlerAdvice {
     }
 
     @ExceptionHandler(value = DataIntegrityViolationException.class)
-    public ResponseEntity<Response<ErrorResponse>> dataIntegrityViolationException(HttpServletRequest request) {
-        int status = HttpStatus.NOT_FOUND.value();
+    public ResponseEntity<Response<ErrorResponse>> dataIntegrityViolationException(DataIntegrityViolationException ex ,HttpServletRequest request) {
+        int status = HttpStatus.CONFLICT.value();
         String path = request.getRequestURI();
-        String message = "Dados já cadastrado em nossa base de dados!";
+        String message = ex.getMessage();
         String detail = "Verifique os campos e tente novamente!";
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(jsonError(status, path, message, detail));
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(jsonError(status, path, message, detail));
     }
 
     @ExceptionHandler(value = EntityNotFoundException.class)
