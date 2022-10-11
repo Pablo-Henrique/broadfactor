@@ -21,12 +21,12 @@ public class CnpjUtils {
      * @return cnpj formatado
      */
     public static String maskFormatterToCnpj(String cnpj) {
-        try{
+        try {
             MaskFormatter mask = new MaskFormatter("##.###.###/####-##");
             mask.setValueContainsLiteralCharacters(false);
             System.out.println(mask.valueToString(cnpj));
             return mask.valueToString(cnpj);
-        }catch (ParseException ex) {
+        } catch (ParseException ex) {
             throw new ParseFormatterErrorException("Não foi possivel realizar essa operação!");
         }
     }

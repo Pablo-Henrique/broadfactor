@@ -7,8 +7,7 @@ import com.broadfactor.response.Response;
 import com.broadfactor.service.CnpjService;
 import com.broadfactor.service.UserService;
 import com.broadfactor.util.ObjectMapperUtils;
-import com.broadfactor.util.PasswordCryptUtils;
-import lombok.Data;
+import com.broadfactor.util.BcryptUtils;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,7 @@ public class UserController {
         Response<UserDTO> response = new Response<>();
 
         User user = ObjectMapperUtils.map(dto, User.class);
-        user.setPassword(PasswordCryptUtils.passwordEncoder(user.getPassword()));
+        user.setPassword(BcryptUtils.passwordEncoder(user.getPassword()));
 
         Cnpj cnpj = cnpjService.consumerCnpj(dto.getCnpj());
         user.setCnpj(cnpjService.insert(cnpj));

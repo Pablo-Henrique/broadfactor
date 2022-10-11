@@ -14,13 +14,13 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 @Service
+@Transactional
 public class CnpjServiceImpl implements CnpjService {
 
     @Autowired
     private CnpjRepository repository;
 
     @Override
-    @Transactional
     public Cnpj insert(Cnpj entity) {
         if (entity != null && repository.findByCnpj(entity.getCnpj()).isPresent()) {
             throw new DataIntegrityViolationException("CNPJ já cadastrado!");
