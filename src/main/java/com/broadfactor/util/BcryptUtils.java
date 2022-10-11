@@ -3,7 +3,7 @@ package com.broadfactor.util;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-public class PasswordCryptUtils {
+public class BcryptUtils {
 
     private static final PasswordEncoder PASSWORD_ENCODER;
 
@@ -14,7 +14,7 @@ public class PasswordCryptUtils {
     /**
      * Privando objetos
      */
-    private PasswordCryptUtils() {
+    private BcryptUtils() {
     }
 
     /**
