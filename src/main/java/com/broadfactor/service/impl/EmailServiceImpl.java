@@ -10,7 +10,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import java.time.LocalDateTime;
 
 @Service
@@ -20,20 +19,20 @@ public class EmailServiceImpl implements EmailService {
     private JavaMailSender javaMailSender;
 
     @Override
-    public void mailSender(Email email) throws MessagingException {
+    public void mailSender(Email email) {
         email.setSendDateEmail(LocalDateTime.now());
         try {
-            MimeMessage message = javaMailSender.createMimeMessage();
-            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, true);
+            var mimeMessage = javaMailSender.createMimeMessage();
+            var messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
-            mimeMessageHelper.setFrom(email.getEmailFrom());
-            mimeMessageHelper.setTo(email.getEmailTo());
-            mimeMessageHelper.setSubject(email.getSubject());
-            mimeMessageHelper.setText(email.getText());
+            messageHelper.setFrom(email.getEmailFrom());
+            messageHelper.setTo(email.getEmailTo());
+            messageHelper.setSubject(email.getSubject());
+            messageHelper.setText(email.getText());
 
-            javaMailSender.send(message);
+            javaMailSender.send(mimeMessage);
             email.setStatusEmail(StatusEmail.SENT);
-        } catch (MailException e) {
+        } catch (MailException | MessagingException e) {
             e.printStackTrace();
             email.setStatusEmail(StatusEmail.ERROR);
         }

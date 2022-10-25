@@ -23,9 +23,6 @@ public class Email implements Serializable {
     private Long id;
 
     @Column
-    private String ownerRef;
-
-    @Column
     private String emailFrom;
 
     @Column

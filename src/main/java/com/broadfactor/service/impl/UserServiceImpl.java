@@ -1,6 +1,7 @@
 package com.broadfactor.service.impl;
 
 import com.broadfactor.handler.exceptions.EntityNotFoundException;
+import com.broadfactor.model.PasswordResetToken;
 import com.broadfactor.model.User;
 import com.broadfactor.repository.UserRepository;
 import com.broadfactor.service.UserService;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(propagation = Propagation.NESTED)
@@ -38,5 +40,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return repository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        return repository.findUserByEmail(email).orElseThrow(() -> new EntityNotFoundException("Email de usuário não encontrado"));
+    }
+
+    @Override
+    public void createPasswordResetTokenForUser(User user, String token) {
+        PasswordResetToken myToken = new PasswordResetToken();
     }
 }
