@@ -1,9 +1,9 @@
 package com.broadfactor.config;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
@@ -11,15 +11,29 @@ import javax.mail.MessagingException;
 import java.util.Properties;
 
 @Configuration
+@PropertySource("classpath:placeholder-smtp.properties")
 public class JavaMailSenderConfig {
+
+    @Value("${mail-host}")
+    private String mailHost;
+
+    @Value("${mail-username}")
+    private String mailUsername;
+
+    @Value("${mail-password}")
+    private String mailPassword;
+
+    @Value("${mail-port}")
+    private Integer mailPort;
 
     @Bean
     public JavaMailSender javaMailSender() throws MessagingException {
         var mailSender = new JavaMailSenderImpl();
 
-        mailSender.setUsername("AKIASZR4EXR7OUEONRMY");
-        mailSender.setPassword("BOjITRaODBgKUtYOf1V5rKbECMV1B18JZltgF3y6wooq");
-        mailSender.setHost("email-smtp.us-east-1.amazonaws.com");
+        mailSender.setUsername(mailUsername);
+        mailSender.setPassword(mailPassword);
+        mailSender.setHost(mailHost);
+        mailSender.setPort(mailPort);
         mailSender.setDefaultEncoding("UTF-8");
 
         Properties pros = new Properties();
