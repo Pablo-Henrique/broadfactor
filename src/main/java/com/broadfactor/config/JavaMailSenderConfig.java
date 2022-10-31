@@ -7,7 +7,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
-import javax.mail.MessagingException;
 import java.util.Properties;
 
 @Configuration
@@ -27,21 +26,28 @@ public class JavaMailSenderConfig {
     private Integer mailPort;
 
     @Bean
-    public JavaMailSender javaMailSender() throws MessagingException {
-        var mailSender = new JavaMailSenderImpl();
-
-        mailSender.setUsername(mailUsername);
-        mailSender.setPassword(mailPassword);
-        mailSender.setHost(mailHost);
-        mailSender.setPort(mailPort);
-        mailSender.setDefaultEncoding("UTF-8");
-
-        Properties pros = new Properties();
-        pros.put("mail.smtp.auth", true);
-        pros.put("mail.smtp.timeout", 25000);
-        pros.put("mail.smtp.port", 2465);
-        pros.put("mail.smtp.socketFactory.fallback", false);
-        mailSender.setJavaMailProperties(pros);
-        return mailSender;
+    public JavaMailSender javaMailSender() {
+        return javaMailSenderImpl();
     }
+
+    private Properties propertie() {
+        var propertie = new Properties();
+        propertie.put("mail.smtp.auth", true);
+        propertie.put("mail.smtp.timeout", 25000);
+        propertie.put("mail.smtp.port", 2465);
+        propertie.put("mail.smtp.socketFactory.fallback", false);
+        return propertie;
+    }
+
+    private JavaMailSenderImpl javaMailSenderImpl() {
+        var mailSenderImpl = new JavaMailSenderImpl();
+        mailSenderImpl.setUsername(mailUsername);
+        mailSenderImpl.setPassword(mailPassword);
+        mailSenderImpl.setHost(mailHost);
+        mailSenderImpl.setPort(mailPort);
+        mailSenderImpl.setDefaultEncoding("UTF-8");
+        mailSenderImpl.setJavaMailProperties(propertie());
+        return mailSenderImpl;
+    }
+
 }
