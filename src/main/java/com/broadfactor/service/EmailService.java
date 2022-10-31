@@ -7,4 +7,6 @@ import javax.mail.MessagingException;
 public interface EmailService {
 
     void mailSender(Email email) throws MessagingException;
+
+    void systemMailSender(String emailTo);
 }

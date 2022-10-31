@@ -5,6 +5,7 @@ import com.broadfactor.model.Cnpj;
 import com.broadfactor.model.User;
 import com.broadfactor.response.Response;
 import com.broadfactor.service.CnpjService;
+import com.broadfactor.service.EmailService;
 import com.broadfactor.service.UserService;
 import com.broadfactor.util.ObjectMapperUtils;
 import com.broadfactor.util.BcryptUtils;
