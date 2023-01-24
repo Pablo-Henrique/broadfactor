@@ -1,5 +1,6 @@
 package com.broadfactor.config;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +33,7 @@ public class JavaMailSenderConfig {
 
     private Properties propertie() {
         var propertie = new Properties();
+        propertie.put("mail.smtp.starttls.enable", true);
         propertie.put("mail.smtp.auth", true);
         propertie.put("mail.smtp.timeout", 25000);
         propertie.put("mail.smtp.port", 2465);

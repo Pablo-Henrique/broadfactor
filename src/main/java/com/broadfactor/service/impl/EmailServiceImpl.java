@@ -32,10 +32,9 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void systemMailSender(String emailTo) {
         var defaultMessage = "Parabens, cadastro realizado com sucesso!";
-        var defaultEmailFrom = "ses.teste.aws@gmail.com";
 
         try {
-            messageHelper(defaultEmailFrom, emailTo, "", defaultMessage);
+            messageHelper("pufim123467@gmail.com", emailTo, "", defaultMessage);
             javaMailSender.send(mimeMessage);
         } catch (MessagingException e) {
             e.printStackTrace();
